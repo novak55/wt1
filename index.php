@@ -12,6 +12,6 @@
 <body>
 <h1>Rozcestník na projekty</h1>
 <ul>
-	<li><a href="#"></a>Moje osobní stránka</li>
+	<li><a href="/cviceni1/index.php"></a>Moje osobní stránka</li>
 </ul>
 </body>
