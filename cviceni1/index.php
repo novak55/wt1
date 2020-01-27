@@ -121,7 +121,8 @@
             </div>
         </div>
     </div>
-    <div class="row bg-dark">
+    <p>&nbsp</p>
+    <div class="row bg-dark fixed-bottom">
         <div class="col-sm-12 text-success text-right">Datum vytvoření: 26. 1. 2020  </div>
     </div>
 <script>

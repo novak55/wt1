@@ -18,6 +18,8 @@
     <ul class="col-sm-10 offset-sm-1 list-group">
         <li class="list-group-item"><a href="cviceni1/index.php">Cvičení 1 - Moje osobní stránka</a></li>
         <li class="list-group-item"><a href="cviceni2/index.php">Cvičení 2 - Klikací mapa - Obrázky - Formulář</a></li>
+        <li class="list-group-item"><a href="cviceni3/index.htm">Cvičení 3 - Použití CSS</a></li>
+        <li class="list-group-item"><a href="cviceni4/index.htm">Cvičení 4 - Rozložení stránky pmocí CSS</a></li>
     </ul>
 </body>
 </html>

@@ -1,0 +1,54 @@
+span.ramecek{
+    height: 100px;
+    width: 100px;
+}
+.prvni{
+    position: relative;
+    display: block;
+    top: 40%;
+    left: 20%;
+    border: 2px red solid;
+}
+.druhy{
+    position: relative;
+    display: block;
+    top: 40%;
+    left: 20%;
+    border: 2px blue solid;
+}
+.treti{
+    position: relative;
+    display: block;
+    top:40%;
+    left: 20%;
+    border: 2px yellow solid;
+}
+.ctvrty{
+    position: relative;
+    display: block;
+    top:40%;
+    left: 20%;
+    border: 2px green solid;
+}
+.pozice1{
+    position: absolute;
+    top: 260px;
+    left: 50px;
+    z-index: 7;
+}
+.pozice2 {
+    position: absolute;
+    top: 370px;
+    left: 460px;
+    z-index: 6;
+}
+.pozice3{
+    position: absolute;
+    top: 250px;
+    left: 25px;
+    z-index: 5;
+}
+
+ul.obarzkovy{
+    list-style-image: url("arrow.png");
+}
