@@ -21,6 +21,7 @@
         <li class="list-group-item"><a href="cviceni3/index.htm">Cvičení 3 - Použití CSS</a></li>
         <li class="list-group-item"><a href="cviceni4/index.htm">Cvičení 4 - Rozložení stránky pmocí CSS</a></li>
         <li class="list-group-item"><a href="cviceni6/index.htm">Cvičení 6 - Javascript</a></li>
+        <li class="list-group-item"><a href="cviceni7/index.php">Cvičení 7 - PHP formulář</a></li>
     </ul>
 </body>
 </html>
