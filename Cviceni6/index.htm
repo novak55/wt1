@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <title>
+        Javascript
+	</title>
+
+</head>
+<body class="bg-light">
+    <script>
+        alert('Výtejte na mých stránkách\nMilan')
+        function spoctiCtverec(){
+            a = prompt("Zadejte stranu A:\n");
+            b = prompt("Zadejte stranu B:\n");
+            $("#vysledek").html(a*b);
+        }
+        function spoctiKruh(){
+            r = prompt("Zadejte poloměr kruhu:\n");
+            s = Math.round(3.14*r^2*100)/100;
+            o = Math.round(2*3.14*r*100)/100;
+            $("#vysledek").html('Obsah kruhu je ' + s + ', obvod je: ' + o);
+        }
+        function noveOkno(url) {
+            obr = new Image();
+            obr.src = "velky.jpg";
+            var win = window.open(url, "foto", "width="+obr.width+", height="+obr.height+", scrollbars=0");
+            win.focus();
+        }
+    </script>
+    <div class="jumbotron justify-content-md-around text-center">
+        <h1>Javascript</h1>
+        <a class="btn btn-info" href="../index.php">Zpět na rozcestník</a>
+    </div>
+    <div class="row">
+    <div class="col-sm-2 offset-1">Výsledek:</div>
+    <div class="col-sm-8" id="vysledek"></div>
+    </div>
+    <ul class="col-sm-10 offset-sm-1 list-group">
+        <li class="list-group-item"><a href="javascript:spoctiCtverec()">Spočti obsah čtverce</a></li>
+        <li class="list-group-item"><a href="javascript:spoctiKruh()">Spočti obsah kruhu</a></li>
+        <li class="list-group-item">Datum: <span id="datum"></span></li>
+        <li class="list-group-item"><img src="maly.jpg" alt="Dřevěná studánka" onmouseover="noveOkno('obr.htm')"></li>
+    </ul>
+    <p>&nbsp;</p>
+    <div class="row bg-dark fixed-bottom">
+        <div class="col-sm-12 text-success text-right">Datum vytvoření: 27. 1. 2020  </div>
+    </div>
+    <script>
+        dnes = new Date;
+        den = dnes.getDate() + 1;
+        mesic = dnes.getMonth();
+        rok = dnes.getFullYear();
+        $("#datum").html(den+'.'+mesic+'.'+rok);
+    </script>
+</body>
+</html>
