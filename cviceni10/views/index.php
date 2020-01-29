@@ -9,9 +9,9 @@
     <div class='col-sm-1'><a href='index.php?akce=pridatKapelu' class='btn btn-success' title='Přidat kapelu'>Přidat kapelu</a></div>
     </div>";
 
-/*    foreach ($db->getSkupiny() as $row)
+    foreach ($db->getSkupiny() as $row)
     {
-  */      $stranka .= "<hr><div class='row offset-1'>
+        $stranka .= "<hr><div class='row offset-1'>
         <div class='col-sm-2'>" . $row["nazev_kapely"] . "</div>
         <div class='col-sm-2'>" . $row["rok_zalozeni"] . "</div>
         <div class='col-sm-2'>" . $row["rok_ukonceni"] . "</div>
@@ -23,4 +23,4 @@
             <a class='btn btn-danger' href='?akce=smazatKapelu&idKapely=" . $row["id"] . "'>smazat</a>
         </div>
         </div>";
-//    }
+    }
