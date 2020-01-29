@@ -24,13 +24,13 @@ class database{
     }
 
     private function getData(){
+        return[];
         $stmt = $this->connector->prepare($this->sql);
         $stmt->execute($this->params);
         return $stmt->fetchAll();
     }
     
     private function setSql($sql, $params = null){
-        return[];
         $this->sql = $sql;
         $this->params = $params;
         return $this->getData();
