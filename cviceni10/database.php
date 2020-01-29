@@ -24,8 +24,8 @@ class database{
     }
 
     private function getData(){
-        return[];
         $stmt = $this->connector->prepare($this->sql);
+        return[];
         $stmt->execute($this->params);
         return $stmt->fetchAll();
     }
