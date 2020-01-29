@@ -1,8 +1,8 @@
 <?php
-/*    include ('database.php');
+    include ('database.php');
     $db = new database();
 
-    if($_GET['smer']){$db->setRaditSmer($_GET['smer'] == 'ASC' ? 'ASC' : 'DESC');}
+/*    if($_GET['smer']){$db->setRaditSmer($_GET['smer'] == 'ASC' ? 'ASC' : 'DESC');}
 
     SWITCH ($_GET['podle']){
         case 'zalozeni': $db->setRaditPodle('rok_zalozeni'); break;
