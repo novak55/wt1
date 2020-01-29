@@ -26,7 +26,7 @@ class database{
     private function getData(){
         try {
             $stmt = $this->connector->prepare($this->sql);
-            $stmt->execute();
+            $stmt->execute($this->params);
         }catch (Exception $exception){
             exit ('Nelze vykonat dotaz: ' . $this->sql);
         }
