@@ -41,12 +41,7 @@ class database{
     }
     
     function getSkupiny(){
-        return $this->setSql("SELECT id, nazev_kapely,
-                    rok_zalozeni,
-                    rok_ukonceni,
-                    zanr,
-                    mesto,
-                    stat
+        return $this->setSql("SELECT *
                     FROM kapely
                     ORDER BY " . $this->raditPodle . " " . $this->raditSmer);
     }
