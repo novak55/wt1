@@ -21,13 +21,12 @@ class database{
         $this->connector = connectToDb();
         $this->raditPodle = 'nazev_kapely';
         $this->raditSmer = 'ASC';
-        $this->params = [];
     }
 
     private function getData(){
         try {
             $stmt = $this->connector->prepare($this->sql);
-            $stmt->execute($this->params);
+            $stmt->execute();
         }catch (Exception $exception){
             exit ('Nelze vykonat dotaz: ' . $this->sql);
         }
