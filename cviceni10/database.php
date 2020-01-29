@@ -36,6 +36,7 @@ class database{
     }
     
     function getSkupiny(){
+        return true;
         return $this->setSql("SELECT id, nazev_kapely,
                     rok_zalozeni,
                     rok_ukonceni,
