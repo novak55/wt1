@@ -21,12 +21,13 @@ class database{
         $this->connector = connectToDb();
         $this->raditPodle = 'nazev_kapely';
         $this->raditSmer = 'ASC';
+        $this->params = [];
     }
 
     private function getData(){
         $stmt = $this->connector->prepare($this->sql);
-        return[];
         $stmt->execute($this->params);
+        return[];
         return $stmt->fetchAll();
     }
     
