@@ -1,50 +1,63 @@
 <?php
-    include_once ('../settings/connect.php');
-?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="cs">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=9" />
-	<meta name="HandheldFriendly" content="True">
-	<meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <title>
-        Připojení k databázi a výpis tabulek
-	</title>
-</head>
-<body class="bg-light">
-    <div class="jumbotron justify-content-md-around text-center">
-        <h1>Připojení k databázi a výpis tabulek / Diskografie kapel</h1>
-        <a class="btn btn-info" href="../index.php">Zpět na rozcestník</a>
-    </div>
-    <div class='row offset-1 table table-striped'>
-        <div class='col-sm-3'><a href="#" title="seřadit">Název kapely</a></div>
-        <div class='col-sm-3'><a href="#" title="seřadit">Datum založení</a></div>
-        <div class='col-sm-3'><a href="#" title="seřadit">Město</a></div>
-        <div class='col-sm-1'><a href="#" title="seřadit">Stát</a></div>
-        <div class='col-sm-1'>Akce</div>
-    </div>
-    <?php
-        $stmt = $postgres->prepare("SELECT nazev_kapely, to_char(datum_zalozeni,'DD.MM.YYYY') as datum_zalozeni, mesto, stat FROM kapely");
-        $stmt->execute();
-        foreach ($stmt->fetchAll() as $row)
-        {
-            echo "<div class='row offset-1 table table-striped'>
-                <div class='col-sm-3'>" . $row["nazev_kapely"] . "</div>
-                <div class='col-sm-3'>" . $row["datum_zalozeni"] . "</div>
-                <div class='col-sm-3'>" . $row["mesto"] . "</div>
-                <div class='col-sm-1'>" . $row["stat"] . "</div>
-                <div class='col-sm-1'><a href='#'>upravit</a></div>
-                </div>";
-        }
-    ?>
-    <p>&nbsp</p>
-    <div class="row bg-dark fixed-bottom">
-        <div class="col-sm-12 text-success text-right">Datum vytvoření: 27. 1. 2020  </div>
-    </div>
-</body>
-</html>
+    include ('database.php');
+    $db = new database();
+
+    if($_GET['smer']){$db->setRaditSmer($_GET['smer'] == 'ASC' ? 'ASC' : 'DESC');}
+
+    SWITCH ($_GET['podle']){
+        case 'zalozeni': $db->setRaditPodle('rok_zalozeni'); break;
+        case 'ukonceni': $db->setRaditPodle('rok_ukonceni'); break;
+        case 'zanr': $db->setRaditPodle('zanr'); break;
+        case 'mesto': $db->setRaditPodle('mesto'); break;
+        case 'stat': $db->setRaditPodle('stat'); break;
+        default: $db->setRaditPodle('nazev_kapely');
+    }
+
+    if($_POST['nazev_kapely'] !== null
+        && $_POST['rok_z'] >= 1900
+        && $_POST['rok_z'] <= date('Y')
+        && $_POST['zanr'] !== null
+        && $_POST['stat'] !== null
+    ){
+        $db->setNazevKapely($_POST['nazev_kapely']);
+        $db->setRokZ($_POST['rok_z']);
+        $db->setRokU($_POST['rok_u']);
+        $db->setZanr($_POST['zanr']);
+        $db->setMesto($_POST['mesto']);
+        $db->setStat($_POST['stat']);
+        $db->setIdKapely($_POST['idKapely']);
+        $db->pridatKapelu();
+        header('location: index.php?alert=2');
+    }
+    switch ($_GET['akce'])
+    {
+        case 'pridatKapelu':
+            include_once ('views/form.php');
+        break;
+        case 'upravitKapelu':
+            $data = $db->getKapeluById($_GET["idKapely"]);
+            include_once ('views/form.php');
+        break;
+        case 'smazatKapelu':
+            $data = $db->delKapeluById($_GET["idKapely"]);
+            header('location: index.php?alert=1');
+        break;
+        default: include_once ('views/index.php');
+    }
+
+    SWITCH ($_GET['alert']){
+        case 1:
+            $alert['type'] = 'danger';
+            $alert['text'] = 'Kapela byla odstraněna.';
+        break;
+        case 2:
+            $alert['type'] = 'success';
+            $alert['text'] = 'Údaje o kapele byly uloženy.';
+        break;
+        default:
+            $alert['type'] = null;
+            $alert['text'] = null;
+    }
+
+include_once 'layout.php';
+    
