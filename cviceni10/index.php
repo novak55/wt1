@@ -2,7 +2,7 @@
     include ('database.php');
     $db = new database();
 
-/*    if($_GET['smer']){$db->setRaditSmer($_GET['smer'] == 'ASC' ? 'ASC' : 'DESC');}
+    if($_GET['smer']){$db->setRaditSmer($_GET['smer'] == 'ASC' ? 'ASC' : 'DESC');}
 
     SWITCH ($_GET['podle']){
         case 'zalozeni': $db->setRaditPodle('rok_zalozeni'); break;
@@ -43,8 +43,8 @@
             header('location: index.php?alert=1');
         break;
         default:
-*/            include_once ('views/index.php');
-  /*  }
+            include_once ('views/index.php');
+    }
 
     SWITCH ($_GET['alert']){
         case 1:
@@ -59,6 +59,6 @@
             $alert['type'] = null;
             $alert['text'] = null;
     }
-*/
+
 include_once 'layout.php';
     
