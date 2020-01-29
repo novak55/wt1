@@ -25,9 +25,12 @@ class database{
     }
 
     private function getData(){
-        $stmt = $this->connector->prepare($this->sql);
-        $stmt->execute($this->params);
-        return[];
+        try {
+            $stmt = $this->connector->prepare($this->sql);
+            $stmt->execute($this->params);
+        }catch (Exception $exception){
+            exit ('Nelze vykonat dotaz: ' . $this->sql);
+        }
         return $stmt->fetchAll();
     }
     
