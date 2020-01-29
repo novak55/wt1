@@ -30,13 +30,13 @@ class database{
     }
     
     private function setSql($sql, $params = null){
+        return[];
         $this->sql = $sql;
         $this->params = $params;
         return $this->getData();
     }
     
     function getSkupiny(){
-        return [];
         return $this->setSql("SELECT id, nazev_kapely,
                     rok_zalozeni,
                     rok_ukonceni,
