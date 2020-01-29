@@ -1,5 +1,5 @@
 <?php
-    include ('database.php');
+/*    include ('database.php');
     $db = new database();
 
     if($_GET['smer']){$db->setRaditSmer($_GET['smer'] == 'ASC' ? 'ASC' : 'DESC');}
@@ -19,15 +19,15 @@
         && $_POST['zanr'] !== null
         && $_POST['stat'] !== null
     ){
-        $db->setNazevKapely($_POST['nazev_kapely']);
-        $db->setRokZ($_POST['rok_z']);
-        $db->setRokU($_POST['rok_u']);
-        $db->setZanr($_POST['zanr']);
-        $db->setMesto($_POST['mesto']);
-        $db->setStat($_POST['stat']);
-        $db->setIdKapely($_POST['idKapely']);
-        $db->pridatKapelu();
-        header('location: index.php?alert=2');
+            $db->setRokZ($_POST['rok_z']);
+            $db->setRokU($_POST['rok_u']);
+            $db->setNazevKapely($_POST['nazev_kapely']);
+            $db->setZanr($_POST['zanr']);
+            $db->setMesto($_POST['mesto']);
+            $db->setStat($_POST['stat']);
+            $db->setIdKapely($_POST['idKapely']);
+            $db->pridatKapelu();
+    header('location: index.php?alert=2');
     }
     switch ($_GET['akce'])
     {
@@ -42,8 +42,9 @@
             $data = $db->delKapeluById($_GET["idKapely"]);
             header('location: index.php?alert=1');
         break;
-        default: include_once ('views/index.php');
-    }
+        default:
+*/            include_once ('views/index.php');
+  /*  }
 
     SWITCH ($_GET['alert']){
         case 1:
@@ -58,6 +59,6 @@
             $alert['type'] = null;
             $alert['text'] = null;
     }
-
+*/
 include_once 'layout.php';
     
