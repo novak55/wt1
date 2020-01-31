@@ -21,14 +21,15 @@ class database{
         $this->connector = connectToDb();
         $this->raditPodle = 'nazev_kapely';
         $this->raditSmer = 'ASC';
-    }
+        if($_GET['smer']){$this->setRaditSmer($_GET['smer'] == 'ASC' ? 'ASC' : 'DESC');}
+     }
 
     private function getData(){
         try {
             $stmt = $this->connector->prepare($this->sql);
             $stmt->execute($this->params);
         }catch (Exception $exception){
-            exit ('Nelze vykonat dotaz: ' . $this->sql);
+            exit ('Nelze vykonat dotaz: ' . $this->sql . '<br>' . $exception->getMessage());
         }
         return $stmt->fetchAll();
     }
@@ -39,13 +40,15 @@ class database{
         return $this->getData();
     }
     
-    function getSkupiny(){
-        return $this->setSql("SELECT *
-                    FROM kapely
+    function getKapely(){
+        return $this->setSql("SELECT k.nazev_kapely, k.rok_zalozeni::VARCHAR, k.rok_ukonceni::VARCHAR, k.mesto, s.nazev AS stat_nazev, z.popis AS zanr_popis
+                    FROM kapela k
+                    NATURAL JOIN stat s
+                    NATURAL JOIN zanr z
                     ORDER BY " . $this->raditPodle . " " . $this->raditSmer);
     }
     
-    public function pridatKapelu()
+    public function ulozitKapelu($idKapely = null)
     {
         $promene = ":nazev,:zalozeno,null,:zanr,:mesto,:stat";
         $params = [
@@ -62,22 +65,29 @@ class database{
         }
 
 
-        $sql = "Insert into kapely VALUES (default," . $promene . ")";
+        $sql = "Insert into kapela VALUES (default," . $promene . ")";
 
-        if($this->idKapely !== null){
+        if($this->idKapely != null){
+            $set = '';
+            if($this->nazevKapely != null){$set .= 'nazev_kapely = :nazev, ';}
+            if($this->rokZ != null){$set .= 'rok_zalozeni = :zalozeno, ';}
+            if($this->rokU != null){$set .= 'rok_ukonceni = :ukonceno, ';}
+            if($this->zanr != null){$set .= 'zanr_id = :zanr, ';}
+            if($this->mesto != null){$set .= 'mesto = :mesto, ';}
+            if($this->stat != null){$set .= 'stat_id = :stat ';}
             $params['idKapely'] = $this->idKapely;
-            $sql = "Insert into kapely VALUES (:idKapely," . $promene . ")";
+            $sql = "Update kapely SET " . $set . " WHERE id = :idKapely";
         }
         $this->setSql($sql, $params);
     }
     public function getKapeluById($idKapely)
     {
-        return $this->setSql("SELECT * FROM kapely WHERE id = :idKapely", ['idKapely' => $idKapely]);
+        return $this->setSql("SELECT * FROM kapela WHERE kapela_id = :idKapely", ['idKapely' => $idKapely]);
     }
 
     public function delKapeluById($idKapely)
     {
-        $this->setSql("DELETE FROM kapely WHERE id = :idKapely", ['idKapely' => $idKapely]);
+        $this->setSql("DELETE FROM kapela WHERE kapela_id = :idKapely", ['idKapely' => $idKapely]);
     }
     
     /**
@@ -156,6 +166,31 @@ class database{
     public function getRaditOpacnySmer()
     {
         return $this->raditSmer == 'ASC' ? 'DESC' : 'ASC';
+    }
+    
+    public function getStaty()
+    {
+        return $this->setSql("SELECT * FROM stat ORDER BY popis");
+    }
+    
+    public function getZanr()
+    {
+        return $this->setSql("SELECT * FROM zanr ORDER BY popis");
+    }
+    
+    public function getKapelyArray()
+    {
+        $i = 0;
+        foreach ($this->getKapely() as $val){
+            $out[$i][0] = $val['nazev_kapely'];
+            $out[$i][1] = $val['rok_zalozeni'];
+            $out[$i][2] = $val['rok_ukonceni'];
+            $out[$i][3] = $val['zanr_popis'];
+            $out[$i][4] = $val['mesto'];
+            $out[$i][5] = $val['stat_nazev'];
+            $i++;
+        }
+        return $out;
     }
     
 }

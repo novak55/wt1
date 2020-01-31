@@ -2,14 +2,12 @@
     include ('database.php');
     $db = new database();
 
-    if($_GET['smer']){$db->setRaditSmer($_GET['smer'] == 'ASC' ? 'ASC' : 'DESC');}
-
     SWITCH ($_GET['podle']){
         case 'zalozeni': $db->setRaditPodle('rok_zalozeni'); break;
         case 'ukonceni': $db->setRaditPodle('rok_ukonceni'); break;
-        case 'zanr': $db->setRaditPodle('zanr'); break;
+        case 'zanr': $db->setRaditPodle('z.popis'); break;
         case 'mesto': $db->setRaditPodle('mesto'); break;
-        case 'stat': $db->setRaditPodle('stat'); break;
+        case 'stat': $db->setRaditPodle('s.nazev'); break;
         default: $db->setRaditPodle('nazev_kapely');
     }
 
@@ -19,15 +17,15 @@
         && $_POST['zanr'] !== null
         && $_POST['stat'] !== null
     ){
-            $db->setRokZ($_POST['rok_z']);
-            $db->setRokU($_POST['rok_u']);
-            $db->setNazevKapely($_POST['nazev_kapely']);
-            $db->setZanr($_POST['zanr']);
-            $db->setMesto($_POST['mesto']);
-            $db->setStat($_POST['stat']);
-            $db->setIdKapely($_POST['idKapely']);
-            $db->pridatKapelu();
-    header('location: index.php?alert=2');
+        $db->setRokZ($_POST['rok_z']);
+        $db->setRokU($_POST['rok_u']);
+        $db->setNazevKapely($_POST['nazev_kapely']);
+        $db->setZanr($_POST['zanr']);
+        $db->setMesto($_POST['mesto']);
+        $db->setStat($_POST['stat']);
+        $db->setIdKapely($_POST['kapela']);
+        $db->ulozitKapelu();
+        header('location: index.php?alert=2');
     }
     switch ($_GET['akce'])
     {
@@ -41,6 +39,12 @@
         case 'smazatKapelu':
             $data = $db->delKapeluById($_GET["idKapely"]);
             header('location: index.php?alert=1');
+        break;
+        case 'getPDF':
+            include ('views/pdf.php');
+            $pdf = new pdf();
+            $pdf->setVykreslitdata($db->getKapelyArray());
+            $pdf->rendrujPdf();
         break;
         default:
             include_once ('views/index.php');

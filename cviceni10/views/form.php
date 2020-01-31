@@ -16,9 +16,22 @@
         </div>
         <p> </p>
         <div class='row offset-1'>
-            <div class='col col-sm-4'>Žánr*: <input type='text' name='zanr' value='" . $data[0]["zanr"] . "' required></div>
+            <div class='col col-sm-4'>Žánr*: <select name='zanr' required><option></option>";
+    foreach ($db->getZanr() as $zanr){
+        $stranka .= "<option  value='" . $zanr["zanr_id"] . "'";
+        if($data[0]['zanr_id'] == $zanr['zanr_id']){ $stranka = 'selected';}
+        $stranka .= ">" . $zanr["popis"] . "</option>";
+    }
+    $stranka .= "</select></div>
             <div class='col col-sm-4'>Město: <input type='text' name='mesto' value='" . $data[0]["mesto"] . "'></div>
-            <div class='col col-sm-4'>Stát*: <input type='text' maxlength='2' name='stat' value='" . $data[0]["stat"] . "' required></div>
+            <div class='col col-sm-4'>Stát*: <select name='stat' required><option></option>";
+    foreach ($db->getStaty() as $stat){
+        $stranka .= "<option value='" . $stat["stat_id"] . "' ";
+        if($data[0]['stat_id'] == $stat['stat_id']){ $stranka = 'selected';}
+        $stranka .= ">" . $stat["popis"] . "</option>";
+    }
+    $stranka .= "</select>
+            </div>
         </div>
         <p> </p>
         <div class='row text-center'>
