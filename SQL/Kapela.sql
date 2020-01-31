@@ -1,4 +1,9 @@
-﻿SELECT k.nazev_kapely, k.rok_zalozeni::VARCHAR, k.rok_ukonceni::VARCHAR, k.mesto, s.nazev AS stat_nazev, z.popis AS zanr_popis FROM kapela k NATURAL JOIN stat s NATURAL JOIN zanr z WHERE k.nazev_kapely ilike '%:vyhledat%' or k.rok_zalozeni::VARCHAR ilike '%:vyhledat%' or k.rok_ukonceni::VARCHAR ilike '%:vyhledat%' or k.mesto ilike 'vyhledat' or s.nazev ilike '%:vyhledat%' or z.popis ilike '%:vyhledat%' ORDER BY nazev_kapely ASC;
+﻿drop table zanr;
+drop table stat;
+drop table kapela;
+drop table album;
+drop table pisen;
+drop table uzivatel;
 
 CREATE TABLE zanr (
     zanr_id serial PRIMARY KEY,
@@ -11,9 +16,6 @@ CREATE TABLE stat (
     nazev VARCHAR(100) NOT NULL
 );
 
---alter table kapela rename column zanr to zanr_id;
---alter table stat rename column popis to nazev;
---alter table kapela rename column stat to stat_id;
 
 create table kapela  (
     kapela_id serial PRIMARY KEY,
@@ -43,3 +45,17 @@ CREATE TABLE pisen (
                        nazev VARCHAR(100) NOT NULL ,
                        delka varchar(5) NOT NULL
 );
+
+CREATE TABLE uzivatel (
+                         user_id SERIAL PRIMARY KEY NOT NULL,
+                         user_name VARCHAR(150) NOT NULL,
+                         login VARCHAR(150) UNIQUE NOT NULL,
+                         password VARCHAR(255) NOT NULL,
+                         role VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE oblibena_kapela(
+    user_id INTEGER REFERENCES uzivatel(user_id) NOT NULL,
+    kapela_id INTEGER REFERENCES kapela(kapela_id) NOT NULL
+);
+ALTER TABLE oblibena_kapela ADD CONSTRAINT "oblibena_kapela_pkey" PRIMARY KEY (user_id, kapela_id);

@@ -1,5 +1,5 @@
 <?php
-class database{
+class database2{
     
     private $connector;
     private $sql;
@@ -14,6 +14,10 @@ class database{
     private $raditPodle;
     private $raditSmer;
     private $vyhledat;
+    private $login;
+    private $password;
+    private $userName;
+    private $userRole;
     
     
     public function __construct()
@@ -23,6 +27,7 @@ class database{
         $this->raditPodle = 'nazev_kapely';
         $this->raditSmer = 'ASC';
         if($_GET['smer']){$this->setRaditSmer($_GET['smer'] == 'ASC' ? 'ASC' : 'DESC');}
+        if($_SESSION['USER_NAME']){$this->userName = $_SESSION['USER_NAME'];}
      }
 
     private function getData(){
@@ -98,73 +103,46 @@ class database{
         $this->setSql("DELETE FROM kapela WHERE kapela_id = :idKapely", ['idKapely' => $idKapely]);
     }
     
-    /**
-     * @param mixed $idKapely
-     */
     public function setIdKapely($idKapely)
     {
         $this->idKapely = $idKapely;
     }
     
-    /**
-     * @param mixed $nazevKapely
-     */
     public function setNazevKapely($nazevKapely)
     {
         $this->nazevKapely = $nazevKapely;
     }
     
-    /**
-     * @param mixed $rokZ
-     */
     public function setRokZ($rokZ)
     {
         $this->rokZ = $rokZ;
     }
     
-    /**
-     * @param mixed $rokU
-     */
     public function setRokU($rokU)
     {
         $this->rokU = $rokU;
     }
     
-    /**
-     * @param mixed $zanr
-     */
     public function setZanr($zanr)
     {
         $this->zanr = $zanr;
     }
     
-    /**
-     * @param mixed $mesto
-     */
     public function setMesto($mesto)
     {
         $this->mesto = $mesto;
     }
     
-    /**
-     * @param mixed $stat
-     */
     public function setStat($stat)
     {
         $this->stat = $stat;
     }
     
-    /**
-     * @param string $raditPodle
-     */
     public function setRaditPodle($raditPodle)
     {
         $this->raditPodle = $raditPodle;
     }
     
-    /**
-     * @param string $raditSmer
-     */
     public function setRaditSmer($raditSmer)
     {
         $this->raditSmer = $raditSmer;
@@ -206,4 +184,56 @@ class database{
         $this->vyhledat = $vyhledat;
     }
     
+    public function setLogin($login)
+    {
+        $this->login = $login;
+    }
+    
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+    
+    public function loginUser()
+    {
+        $sql = $this->setSql("SELECT *, ENCODE(DIGEST(password||'" . $_SESSION['casSifrovani'] . "','sha256'),'hex') as heslo FROM uzivatel WHERE login = :login", ['login' => $this->login]);
+        $heslo = $sql[0]["heslo"];
+        if(count($sql) == 1 && $heslo == $this->password) {
+            $this->userName = $sql[0]['user_name'];
+            $_SESSION['ROLE'] = $sql[0]['role'];
+            $_SESSION['USER_NAME'] = $sql[0]['user_name'];
+            return true;
+        }
+        return false;
+    }
+    
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+    
+    public function getUserRole()
+    {
+        return $this->userRole;
+    }
+    
+    public function getLogin()
+    {
+        return $this->login;
+    }
+    
+    public function getPassword()
+    {
+        return $this->password;
+    }
+    
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+    }
+    
+    public function setUserRole($userRole)
+    {
+        $this->userRole = $userRole;
+    }
 }

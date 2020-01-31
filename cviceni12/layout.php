@@ -10,24 +10,28 @@
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <title>
-        Připojení k databázi a výpis tabulek
+        Připojení k databázi, výpis tabulek a zabezpečení
     </title>
 </head>
 <body class="bg-light">
 <div class="jumbotron justify-content-md-around text-center">
-    <h1>Připojení k databázi a výpis tabulek a zabezpečení</h1>
+    <h1>Připojení k databázi, výpis tabulek a zabezpečení</h1>
     <a class="btn btn-info" href="../index.php">Zpět na rozcestník</a>
 </div>
-<div class="alert alert-<?php echo $alert['type'];?> alert-dismissible fade <?php echo $alert['type'] != null ? 'show':'none'; ?>" role="alert">
+<div class="offset-1 col-sm-10 alert alert-<?php echo $alert['type'];?> alert-dismissible fade <?php echo $alert['type'] != null ? 'show':'none'; ?>" role="alert">
     <?php echo $alert['text'];?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<?php echo $stranka?>
+<hr>
+<?php echo $form->getForm();?>
+<hr>
+<?php echo $stranka;?>
 <p>&nbsp</p>
 <div class="row bg-dark fixed-bottom">
     <div class="col-sm-12 text-success text-right">Datum vytvoření: 27. 1. 2020  </div>
 </div>
+<?php print_r($_SESSION); ?>
 </body>
 </html>

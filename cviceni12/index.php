@@ -1,10 +1,30 @@
 <?php
     session_start();
-    include ('database.php');
+    include ('database2.php');
     include ('security.php');
-    $db = new database();
+    include_once 'views/loginForm.php';
+    $db = new database2();
     $security = new security();
+    $form = new loginForm();
 
+    $alerts = $_GET["alert"];
+
+    if($_POST["login"] and $_POST["pwd"]) {
+        $db->setPassword($_POST["pwd"]);
+        $db->setLogin($_POST["login"]);
+        if($db->loginUser()){
+            $security->setRole();
+            header('location: index.php?alert=5');
+        }else{
+            $security->setRole();
+            header('location: index.php?alert=6');
+        }
+    }
+    
+    $security->setRole();
+    $form->setStav($security->getLoginFom());
+    $form->setUserName($db->getUserName());
+    
     SWITCH ($_GET['podle']){
         case 'zalozeni': $db->setRaditPodle('rok_zalozeni'); break;
         case 'ukonceni': $db->setRaditPodle('rok_ukonceni'); break;
@@ -33,15 +53,27 @@
     switch ($_GET['akce'])
     {
         case 'pridatKapelu':
-            include_once ('views/form.php');
+            if($security->getRole() == 'admin'){
+                include_once ('views/form.php');
+            }else{
+                header('location: index.php?alert=4');
+            }
         break;
         case 'upravitKapelu':
-            $data = $db->getKapeluById($_GET["idKapely"]);
-            include_once ('views/form.php');
+            if($security->getRole() == 'admin'){
+                $data = $db->getKapeluById($_GET["idKapely"]);
+                include_once ('views/form.php');
+            }else{
+                header('location: index.php?alert=4');
+            }
         break;
         case 'smazatKapelu':
-            $data = $db->delKapeluById($_GET["idKapely"]);
-            header('location: index.php?alert=1');
+            if($security->getRole() == 'admin'){
+                $data = $db->delKapeluById($_GET["idKapely"]);
+                header('location: index.php?alert=1');
+            }else{
+                header('location: index.php?alert=4');
+            }
         break;
         case 'getPDF':
             include ('views/pdf.php');
@@ -49,13 +81,17 @@
             $pdf->setVykreslitdata($db->getKapelyArray());
             $pdf->rendrujPdf();
         break;
+        case 'logout':
+            $_SESSION['ROLE'] = null;
+            header('location: index.php?alert=3');
+        break;
         case 'hledej':
             $db->setVyhledat($_POST["vyhledat"]);
         default:
-            include_once ('views/index.php');
+            require_once ('views/index.php');
     }
 
-    SWITCH ($_GET['alert']){
+    SWITCH ($alerts){
         case 1:
             $alert['type'] = 'danger';
             $alert['text'] = 'Kapela byla odstraněna.';
@@ -64,10 +100,26 @@
             $alert['type'] = 'success';
             $alert['text'] = 'Údaje o kapele byly uloženy.';
         break;
+        case 3:
+            $alert['type'] = 'success';
+            $alert['text'] = 'Odhlášení proběhlo úspěšně.';
+        break;
+        case 4:
+            $alert['type'] = 'danger';
+            $alert['text'] = 'Nemáte dostatečná oprávnění pro tuto činnost.';
+        break;
+        case 5:
+            $alert['type'] = 'success';
+            $alert['text'] = 'Přihlášení proběhlo úspěšně.';
+        break;
+        case 6:
+            $alert['type'] = 'danger';
+            $alert['text'] = 'Tento pokus o přihlášení nebul úspěšný!';
+        break;
         default:
             $alert['type'] = null;
             $alert['text'] = null;
     }
 
 include_once 'layout.php';
-    
+
