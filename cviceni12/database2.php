@@ -196,9 +196,9 @@ class database2{
     
     public function loginUser()
     {
-        $sql = $this->setSql("SELECT *, ENCODE(DIGEST(password||'" . $_SESSION['casSifrovani'] . "','sha256'),'hex') as heslo FROM uzivatel WHERE login = :login", ['login' => $this->login]);
-        $heslo = $sql[0]["heslo"];
-        if(count($sql) == 1 && $heslo == $this->password) {
+        $sql = $this->setSql("SELECT * FROM uzivatel WHERE login = :login", ['login' => $this->login]);
+        $password = hash('sha256', $sql[0]["password"].$_SESSION['casSifrovani']);
+        if(count($sql) == 1 && $password == $this->password) {
             $this->userName = $sql[0]['user_name'];
             $_SESSION['ROLE'] = $sql[0]['role'];
             $_SESSION['USER_NAME'] = $sql[0]['user_name'];
