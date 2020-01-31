@@ -46,6 +46,8 @@
             $pdf->setVykreslitdata($db->getKapelyArray());
             $pdf->rendrujPdf();
         break;
+        case 'hledej':
+            $db->setVyhledat($_POST["vyhledat"]);
         default:
             include_once ('views/index.php');
     }

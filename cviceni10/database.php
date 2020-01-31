@@ -13,6 +13,7 @@ class database{
     private $stat;
     private $raditPodle;
     private $raditSmer;
+    private $vyhledat;
     
     
     public function __construct()
@@ -34,21 +35,28 @@ class database{
         return $stmt->fetchAll();
     }
     
-    private function setSql($sql, $params = null){
+    private function setSql($sql, $params = []){
         $this->sql = $sql;
         $this->params = $params;
         return $this->getData();
     }
     
     function getKapely(){
+        $where = '';
+        $params = [];
+        if(isset($this->vyhledat)){
+            $where = "WHERE k.nazev_kapely ilike :vyhledat or k.rok_zalozeni::VARCHAR ilike :vyhledat or k.rok_ukonceni::VARCHAR ilike :vyhledat or k.mesto ilike :vyhledat or s.nazev ilike :vyhledat or z.popis ilike :vyhledat";
+            $params = ['vyhledat' => '%' . $this->vyhledat . '%'];
+        }
         return $this->setSql("SELECT k.nazev_kapely, k.rok_zalozeni::VARCHAR, k.rok_ukonceni::VARCHAR, k.mesto, s.nazev AS stat_nazev, z.popis AS zanr_popis
                     FROM kapela k
                     NATURAL JOIN stat s
                     NATURAL JOIN zanr z
-                    ORDER BY " . $this->raditPodle . " " . $this->raditSmer);
+                    " . $where . "
+                    ORDER BY " . $this->raditPodle . " " . $this->raditSmer, $params);
     }
     
-    public function ulozitKapelu($idKapely = null)
+    public function ulozitKapelu()
     {
         $promene = ":nazev,:zalozeno,null,:zanr,:mesto,:stat";
         $params = [
@@ -170,7 +178,7 @@ class database{
     
     public function getStaty()
     {
-        return $this->setSql("SELECT * FROM stat ORDER BY popis");
+        return $this->setSql("SELECT * FROM stat ORDER BY nazev");
     }
     
     public function getZanr()
@@ -191,6 +199,11 @@ class database{
             $i++;
         }
         return $out;
+    }
+    
+    public function setVyhledat($vyhledat)
+    {
+        $this->vyhledat = $vyhledat;
     }
     
 }

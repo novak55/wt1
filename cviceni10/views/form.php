@@ -28,7 +28,7 @@
     foreach ($db->getStaty() as $stat){
         $stranka .= "<option value='" . $stat["stat_id"] . "' ";
         if($data[0]['stat_id'] == $stat['stat_id']){ $stranka = 'selected';}
-        $stranka .= ">" . $stat["popis"] . "</option>";
+        $stranka .= ">" . $stat["nazev"] . "</option>";
     }
     $stranka .= "</select>
             </div>

@@ -15,7 +15,7 @@
 </head>
 <body class="bg-light">
 <div class="jumbotron justify-content-md-around text-center">
-    <h1>Připojení k databázi a výpis tabulek / Diskografie kapel</h1>
+    <h1>Připojení k databázi a výpis tabulek a zabezpečení</h1>
     <a class="btn btn-info" href="../index.php">Zpět na rozcestník</a>
 </div>
 <div class="alert alert-<?php echo $alert['type'];?> alert-dismissible fade <?php echo $alert['type'] != null ? 'show':'none'; ?>" role="alert">

@@ -1,4 +1,6 @@
-﻿CREATE TABLE zanr (
+﻿SELECT k.nazev_kapely, k.rok_zalozeni::VARCHAR, k.rok_ukonceni::VARCHAR, k.mesto, s.nazev AS stat_nazev, z.popis AS zanr_popis FROM kapela k NATURAL JOIN stat s NATURAL JOIN zanr z WHERE k.nazev_kapely ilike '%:vyhledat%' or k.rok_zalozeni::VARCHAR ilike '%:vyhledat%' or k.rok_ukonceni::VARCHAR ilike '%:vyhledat%' or k.mesto ilike 'vyhledat' or s.nazev ilike '%:vyhledat%' or z.popis ilike '%:vyhledat%' ORDER BY nazev_kapely ASC;
+
+CREATE TABLE zanr (
     zanr_id serial PRIMARY KEY,
     popis VARCHAR(20) UNIQUE NOT NULL
 );

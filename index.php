@@ -24,7 +24,9 @@
         <li class="list-group-item"><a href="cviceni7/index.php">Cvičení 7 - Javascript formulář</a></li>
         <li class="list-group-item"><a href="cviceni8/index.php">Cvičení 8 - PHP formulář - překladač</a></li>
         <li class="list-group-item"><a href="cviceni9/index.php">Cvičení 9 - PHP formulář</a></li>
-        <li class="list-group-item"><a href="cviceni10/index.php">Cvičení 10 - Připojení k databázi a výpis tabulek</a></li>
+        <li class="list-group-item"><a href="cviceni10/index.php">Cvičení 10, 11, 12 - Připojení k databázi a výpis tabulek</a></li>
+        <li class="list-group-item"><a href="cviceni12/index.php">Cvičení 12 - Zabezpečení stránek</a></li>
+        <li class="list-group-item"><a href="zaverecnaPrace/index.php">Závěrečná práce</a></li>
     </ul>
 </body>
 </html>
