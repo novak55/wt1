@@ -23,7 +23,7 @@
         $db->setZanr($_POST['zanr']);
         $db->setMesto($_POST['mesto']);
         $db->setStat($_POST['stat']);
-        $db->setIdKapely($_POST['kapela']);
+        $db->setIdKapely($_POST['id']);
         $db->ulozitKapelu();
         header('location: index.php?alert=2');
     }

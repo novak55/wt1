@@ -48,7 +48,7 @@ class database{
             $where = "WHERE k.nazev_kapely ilike :vyhledat or k.rok_zalozeni::VARCHAR ilike :vyhledat or k.rok_ukonceni::VARCHAR ilike :vyhledat or k.mesto ilike :vyhledat or s.nazev ilike :vyhledat or z.popis ilike :vyhledat";
             $params = ['vyhledat' => '%' . $this->vyhledat . '%'];
         }
-        return $this->setSql("SELECT k.nazev_kapely, k.rok_zalozeni::VARCHAR, k.rok_ukonceni::VARCHAR, k.mesto, s.nazev AS stat_nazev, z.popis AS zanr_popis
+        return $this->setSql("SELECT k.kapela_id, k.nazev_kapely, k.rok_zalozeni::VARCHAR, k.rok_ukonceni::VARCHAR, k.mesto, s.nazev AS stat_nazev, z.popis AS zanr_popis
                     FROM kapela k
                     NATURAL JOIN stat s
                     NATURAL JOIN zanr z
@@ -84,7 +84,7 @@ class database{
             if($this->mesto != null){$set .= 'mesto = :mesto, ';}
             if($this->stat != null){$set .= 'stat_id = :stat ';}
             $params['idKapely'] = $this->idKapely;
-            $sql = "Update kapely SET " . $set . " WHERE id = :idKapely";
+            $sql = "Update kapela SET " . $set . " WHERE kapela_id = :idKapely";
         }
         $this->setSql($sql, $params);
     }
