@@ -1,0 +1,14 @@
+INSERT INTO public.zanr (zanr_id, popis) VALUES (2, 'pop');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (3, 'metal');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (4, 'dance');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (5, 'country');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (6, 'folk');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (7, 'R.n.B');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (8, 'soul');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (9, 'rap');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (10, 'regge');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (11, 'disco');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (12, 'hip hop');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (13, 'house');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (14, 'techno');
+INSERT INTO public.zanr (zanr_id, popis) VALUES (1, 'rock');

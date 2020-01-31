@@ -1,94 +1,73 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="cs">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=9" />
-	<meta name="HandheldFriendly" content="True">
-	<meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <title>
-        Zabezpečení stránek
-	</title>
-</head>
-<body class="bg-light">
-    <div class="jumbotron justify-content-md-around text-center">
-        <h1>PHP Formulář</h1>
-        <a class="btn btn-info" href="../index.php">Zpět na rozcestník</a>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <h2>Formulář</h2>
-            <form name="formular" method="get" action="index.php">
-                <div class="row">
-                    <div class="col-sm-5 offset-1 text-md-right text-xs-left">Zadejte číslo od 1 do 31*:</div>
-                    <div class="col-sm-5 offset-1"><input name="cislo" type="text"></div>
-                </div>
-                <div class="row">
-                    <div class="offset-1 col-sm-5 text-md-right text-xs-left">Zadejte popis (delší než 10 znaků)*:</div>
-                    <div class="offset-1 col-sm-5"><input name="popis" type="text"></div>
-                </div>
-                <div class="row">
-                    <div class="offset-1 col-sm-5 text-md-right text-xs-left">Zadejte SPZ ve tvaru [XYX XXXX]*:</div>
-                    <div class="offset-1 col-sm-5"><input name="spz" type="text"></div>
-                </div>
-                <div class="row">
-                    <div class="offset-1 col-sm-5 text-md-right text-xs-left">Zadejte libovolný text*:</div>
-                    <div class="offset-1 col-sm-5"><input name="text" type="text"></div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 text-center">
-                        Položky označené * jsou povinné.
-                    </div>
-                </div>
-                <p>&nbsp;</p>
-                <div class="row">
-                    <div class="col-sm-12 text-center"><button type="submit" class="btn btn-success" title="Odesdlat formulář">Odeslat formulář</button></div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <?php
-    if(strlen($_GET["popis"]) > 10
-        and preg_match("/^[0-9]*$/", $_GET["cislo"], $match)
-        and $_GET["cislo"] >= 1
-        and $_GET["cislo"] <=31
-        and preg_match("/^[0-9][A-Z][0-9] [0-9]{4}$/", $_GET["spz"], $match)
-        and strlen($_GET["text"]) > 0
-    ){
-        echo '<hr><div class="row"><div class="col-sm-3 offset-1">Bylo zadano číslo: ' . $_GET["cislo"] . ' </div>';
-        echo '<div class="col-sm-3 offset-1">Byl zadan popis: ' . $_GET["popis"] . ' </div>';
-        echo '<div class="col-sm-3 offset-1">Bylo zadano SPZ: ' . $_GET["spz"] . ' </div></div>';
-        echo '<div class="row"><div class="col-sm-11 offset-1">Byl zadan popis: ' . $_GET["text"] . ' </div></div>';
-    }
-    ?>
-    <hr>
-    <div class="row">
-        <div class="col-sm-12">
-            <h2>Generování hesla</h2>
-            <form name="generujHeslo" method="get" action="index.php">
-                <div class="row">
-                    <div class="offset-1 col-sm-4 text-right">
-                        Zadejte délku hesla:<input type="text" name="delkaHesla" size="10" required>
-                    </div>
-                    <div class="col-sm-7 text-left"><button type="submit" class="btn btn-success" title="Odesdlat formulář">spočti</button></div>
-                </div>
-            </form>
-            <?php
-            include_once ('heslo.php');
-            if(is_numeric($_GET["delkaHesla"])){
-                $heslo = generujHeslo($_GET["delkaHesla"]);
-                echo '<hr><div class="row"><div class="col-sm-12 offset-1">Vaše heslo je: ' . $heslo . '</div></div><hr>';
-            }
-            ?>
-        </div>
-    </div>
+<?php
+    session_start();
+    include ('database.php');
+    include ('security.php');
+    $db = new database();
+    $security = new security();
 
-    <p>&nbsp</p>
-    <div class="row bg-dark fixed-bottom">
-        <div class="col-sm-12 text-success text-right">Datum vytvoření: 27. 1. 2020  </div>
-    </div>
-</body>
-</html>
+    SWITCH ($_GET['podle']){
+        case 'zalozeni': $db->setRaditPodle('rok_zalozeni'); break;
+        case 'ukonceni': $db->setRaditPodle('rok_ukonceni'); break;
+        case 'zanr': $db->setRaditPodle('z.popis'); break;
+        case 'mesto': $db->setRaditPodle('mesto'); break;
+        case 'stat': $db->setRaditPodle('s.nazev'); break;
+        default: $db->setRaditPodle('nazev_kapely');
+    }
+
+    if($_POST['nazev_kapely'] !== null
+        && $_POST['rok_z'] >= 1900
+        && $_POST['rok_z'] <= date('Y')
+        && $_POST['zanr'] !== null
+        && $_POST['stat'] !== null
+    ){
+        $db->setRokZ($_POST['rok_z']);
+        $db->setRokU($_POST['rok_u']);
+        $db->setNazevKapely($_POST['nazev_kapely']);
+        $db->setZanr($_POST['zanr']);
+        $db->setMesto($_POST['mesto']);
+        $db->setStat($_POST['stat']);
+        $db->setIdKapely($_POST['id']);
+        $db->ulozitKapelu();
+        header('location: index.php?alert=2');
+    }
+    switch ($_GET['akce'])
+    {
+        case 'pridatKapelu':
+            include_once ('views/form.php');
+        break;
+        case 'upravitKapelu':
+            $data = $db->getKapeluById($_GET["idKapely"]);
+            include_once ('views/form.php');
+        break;
+        case 'smazatKapelu':
+            $data = $db->delKapeluById($_GET["idKapely"]);
+            header('location: index.php?alert=1');
+        break;
+        case 'getPDF':
+            include ('views/pdf.php');
+            $pdf = new pdf();
+            $pdf->setVykreslitdata($db->getKapelyArray());
+            $pdf->rendrujPdf();
+        break;
+        case 'hledej':
+            $db->setVyhledat($_POST["vyhledat"]);
+        default:
+            include_once ('views/index.php');
+    }
+
+    SWITCH ($_GET['alert']){
+        case 1:
+            $alert['type'] = 'danger';
+            $alert['text'] = 'Kapela byla odstraněna.';
+        break;
+        case 2:
+            $alert['type'] = 'success';
+            $alert['text'] = 'Údaje o kapele byly uloženy.';
+        break;
+        default:
+            $alert['type'] = null;
+            $alert['text'] = null;
+    }
+
+include_once 'layout.php';
+    

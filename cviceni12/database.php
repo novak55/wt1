@@ -130,26 +130,41 @@ class database{
         $this->rokU = $rokU;
     }
     
+    /**
+     * @param mixed $zanr
+     */
     public function setZanr($zanr)
     {
         $this->zanr = $zanr;
     }
     
+    /**
+     * @param mixed $mesto
+     */
     public function setMesto($mesto)
     {
         $this->mesto = $mesto;
     }
     
-     public function setStat($stat)
+    /**
+     * @param mixed $stat
+     */
+    public function setStat($stat)
     {
         $this->stat = $stat;
     }
     
-     public function setRaditPodle($raditPodle)
+    /**
+     * @param string $raditPodle
+     */
+    public function setRaditPodle($raditPodle)
     {
         $this->raditPodle = $raditPodle;
     }
     
+    /**
+     * @param string $raditSmer
+     */
     public function setRaditSmer($raditSmer)
     {
         $this->raditSmer = $raditSmer;
