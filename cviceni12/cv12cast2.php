@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="cs">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,28 +9,28 @@
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <title>
-        Připojení k databázi, výpis tabulek a zabezpečení
+        Šifrování hesla
     </title>
+
 </head>
 <body class="bg-light">
 <div class="jumbotron justify-content-md-around text-center">
-    <h1>Připojení k databázi, výpis tabulek a zabezpečení</h1>
-    <a class="btn btn-info" href="index.php">Zpět na cvičení</a>
+    <h1>Šifrování hesla</h1>
+    <a class="btn btn-info" href="index.php">Zpět na cičení 13</a>
 </div>
-<div class="offset-1 col-sm-10 alert alert-<?php echo $alert['type'];?> alert-dismissible fade <?php echo $alert['type'] != null ? 'show':'none'; ?>" role="alert">
-    <?php echo $alert['text'];?>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<hr>
-<?php echo $form->getForm();?>
-<hr>
-<?php echo $stranka;?>
-<p>&nbsp</p>
+<div></div>
+<div class="row offset-1 col-sm-10"><div>
+<?php
+    $heslo="novak71";
+    $zakodovane = password_hash($heslo,PASSWORD_BCRYPT);
+    echo "heslo je: ". $heslo . "<br>";
+    echo "heslo je zakodovane sifrou: BCRYPT pomocí funkce: password_hash: ". $zakodovane . "";
+?>
+</div></div>
+<p>&nbsp;</p>
 <div class="row bg-dark fixed-bottom">
     <div class="col-sm-12 text-success text-right">Datum vytvoření: 27. 1. 2020  </div>
 </div>
-<?php print_r($_SESSION); ?>
 </body>
 </html>
+

@@ -7,7 +7,7 @@
         </div>
     </div>
     <p> </p>
-    <form action='index.php' method='post'>
+    <form action='app.php' method='post'>
         <input type='hidden' name='id' value='" . $data[0]["kapela_id"] . "'>
         <div class='row offset-1'>
             <div class='col col-sm-4' >Název kapely*: <input type='text' name='nazev_kapely' value='" . $data[0]["nazev_kapely"] . "' required></div>

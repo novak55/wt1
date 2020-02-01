@@ -9,7 +9,7 @@ class loginForm{
     
     public function getLogin(){
         return "
-<form action='index.php' METHOD='post'  onsubmit='return zabezpecit();'>
+<form action='app.php' METHOD='post'  onsubmit='return zabezpecit();'>
     <div class='row offset-1'>
         <div class='col-sm-4'>
             Můžete se přihlásit do systému:
