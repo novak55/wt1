@@ -82,9 +82,18 @@
             $pdf->rendrujPdf();
         break;
         case 'logout':
-            $_SESSION['ROLE'] = null;
+            $_SESSION = array();
+            session_destroy();
             header('location: index.php?alert=3');
         break;
+        case 'oblibit':
+            $db->setOblibit();
+            header('location: index.php?alert=7');
+            break;
+        case 'odlibit':
+            $db->setOdlibit();
+            header('location: index.php?alert=8');
+            break;
         case 'hledej':
             $db->setVyhledat($_POST["vyhledat"]);
         default:
@@ -115,6 +124,14 @@
         case 6:
             $alert['type'] = 'danger';
             $alert['text'] = 'Tento pokus o přihlášení nebul úspěšný!';
+        break;
+        case 7:
+            $alert['type'] = 'success';
+            $alert['text'] = 'Kapela byla přidána do oblíbených!';
+        break;
+        case 7:
+            $alert['type'] = 'warning';
+            $alert['text'] = 'Kapela byla odebrána z oblíbených!';
         break;
         default:
             $alert['type'] = null;

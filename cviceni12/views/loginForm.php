@@ -15,10 +15,10 @@ class loginForm{
             Můžete se přihlásit do systému:
         </div>
         <div class='col-sm-3'>
-            jméno: <input type='text' size='20' name='login' >
+            jméno: <input type='text' size='20' name='login' required>
         </div>
         <div class='col-sm-3'>
-            heslo: <input type='password' size='20' name='password'  title='Vaše heslo se neodesílá jako prostý text!'>
+            heslo: <input type='password' size='20' name='password'  title='Vaše heslo se neodesílá jako prostý text!' required>
         </div>
         <div class='col-sm-2'>
             <button type='submit' class='btn btn-success'>Přihlásit</button>

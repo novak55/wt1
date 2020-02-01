@@ -54,6 +54,9 @@ CREATE TABLE uzivatel (
                          role VARCHAR(20) NOT NULL
 );
 
+--alter table uzivatel drop constraint user_pkey;
+--alter table uzivatel add constraint "user_pkey" PRIMARY KEY (user_id);
+
 CREATE TABLE oblibena_kapela(
     user_id INTEGER REFERENCES uzivatel(user_id) NOT NULL,
     kapela_id INTEGER REFERENCES kapela(kapela_id) NOT NULL

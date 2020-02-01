@@ -18,6 +18,7 @@ class database2{
     private $password;
     private $userName;
     private $userRole;
+    private $userId;
     
     
     public function __construct()
@@ -28,6 +29,8 @@ class database2{
         $this->raditSmer = 'ASC';
         if($_GET['smer']){$this->setRaditSmer($_GET['smer'] == 'ASC' ? 'ASC' : 'DESC');}
         if($_SESSION['USER_NAME']){$this->userName = $_SESSION['USER_NAME'];}
+        if($_SESSION['ROLE']){$this->userRole = $_SESSION['ROLE'];}
+        if($_SESSION['USER_ID']){$this->userId = $_SESSION['USER_ID'];}
      }
 
     private function getData(){
@@ -48,15 +51,23 @@ class database2{
     
     function getKapely(){
         $where = '';
+        $join = '';
         $params = [];
+        $select = '';
         if(isset($this->vyhledat)){
             $where = "WHERE k.nazev_kapely ilike :vyhledat or k.rok_zalozeni::VARCHAR ilike :vyhledat or k.rok_ukonceni::VARCHAR ilike :vyhledat or k.mesto ilike :vyhledat or s.nazev ilike :vyhledat or z.popis ilike :vyhledat";
-            $params = ['vyhledat' => '%' . $this->vyhledat . '%'];
+            $params['vyhledat'] = '%' . $this->vyhledat . '%';
         }
-        return $this->setSql("SELECT k.kapela_id, k.nazev_kapely, k.rok_zalozeni::VARCHAR, k.rok_ukonceni::VARCHAR, k.mesto, s.nazev AS stat_nazev, z.popis AS zanr_popis
+        if($this->userRole == 'navstevnik' || $this->userRole == 'admin'){
+            $join = "LEFT JOIN oblibena_kapela ok ON k.kapela_id = ok.kapela_id and ok.user_id = :user";
+            $params['user'] = $this->userId;
+            $select .= ', coalesce(ok.user_id > 0, false) as oblibena';
+        }
+        return $this->setSql("SELECT k.kapela_id, k.nazev_kapely, k.rok_zalozeni::VARCHAR, k.rok_ukonceni::VARCHAR, k.mesto, s.nazev AS stat_nazev, z.popis AS zanr_popis ".$select."
                     FROM kapela k
                     NATURAL JOIN stat s
                     NATURAL JOIN zanr z
+                    " . $join . "
                     " . $where . "
                     ORDER BY " . $this->raditPodle . " " . $this->raditSmer, $params);
     }
@@ -200,8 +211,11 @@ class database2{
         $password = hash('sha256', $sql[0]["password"].$_SESSION['casSifrovani']);
         if(count($sql) == 1 && $password == $this->password) {
             $this->userName = $sql[0]['user_name'];
+            $this->userRole = $sql[0]['role'];
+            $this->userId = $sql[0]['user_id'];
             $_SESSION['ROLE'] = $sql[0]['role'];
             $_SESSION['USER_NAME'] = $sql[0]['user_name'];
+            $_SESSION['USER_ID'] = $sql[0]['user_id'];
             return true;
         }
         return false;
@@ -210,6 +224,11 @@ class database2{
     public function getUserName()
     {
         return $this->userName;
+    }
+    
+    public function getUserId()
+    {
+        return $this->userId;
     }
     
     public function getUserRole()
@@ -235,5 +254,15 @@ class database2{
     public function setUserRole($userRole)
     {
         $this->userRole = $userRole;
+    }
+    
+    public function setOblibit()
+    {
+        $this->setSql("INSERT INTO oblibena_kapela VALUES (:uzivatel, :kapela)", ['uzivatel' => $this->userId, 'kapela' => $_GET['idKapely']]);
+    }
+    
+    public function setOdlibit()
+    {
+        $this->setSql("DELETE FROM oblibena_kapela WHERE user_id = :uzivatel and kapela_id = :kapela", ['uzivatel' => $this->userId, 'kapela' => $_GET['idKapely']]);
     }
 }
