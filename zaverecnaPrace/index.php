@@ -8,7 +8,7 @@ $db = new databaseZP();
 $security = new securityZP();
 $alert = new alertZP();
 $stranka = new stranka();
-/*
+
 if(($_POST["login"] && $_POST["pwd"])){
     $db->setPassword($_POST["pwd"]);
     $db->setLogin($_POST["login"]);
@@ -168,7 +168,6 @@ switch ($_GET["akce"]){
         $stranka->setTitulek('Přehled kapel');
         $stranka->setObsah('default');
 }
-*/
 include_once 'layout.php';
 echo "test";
 print_r($db->getZanr());
