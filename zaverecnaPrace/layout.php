@@ -11,7 +11,7 @@
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <title>
-        <?=$stranka->getTitulek()?>
+        <?= $stranka->getTitulek()?>
     </title>
 </head>
 <body class="bg-white">
@@ -28,55 +28,7 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="?">Seznam kapel</a>
                 </li>
-                <? if($security->getRole() == 'admin'):?>
-                <li class="nav-item">
-                    <a class="nav-link" href="?akce=pridatKapelu">Přidat kapelu</a>
-                </li>
-                <? endif;?>
-                <? if($security->isAuthenticated()):?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="?akce=oblibeneKapely">Oblíbené kapely</a>
-                    </li>
-                <? endif;?>
-                <li class="nav-item">
-                    <a class="nav-link" href="?akce=getPDF" title="Stáhnout PDF se seznamem kapel." target="pdf">PDF</a>
-                </li>
             </ul>
-            <div id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown list-group">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <? if($security->isAuthenticated()):?>
-                            <?= $security->getUsername();?>
-                            <? else:?>
-                            Přihlášení
-                            <? endif;?>
-                        </a>
-                        <div class="dropdown-menu text-center" aria-labelledby="navbarDropdownMenuLink">
-                    <?php if($security->isAuthenticated() == false):?>
-
-                        <form class="dropdown-item form-inline my-2 my-lg-0" method="post" onsubmit="return zabezpecit();">
-                            <input class="form-control mr-sm-2" type="text" name="login" placeholder="login" aria-label="login" title="admin:Admin, milan:Novak"><br>
-                            <input class="form-control mr-sm-2" type="password" name="password" placeholder="heslo" aria-label="login"><br>
-                            <button class="list-group-item list-group-item-action list-group-item-success my-2 my-sm-0" type="submit">Přihlásit</button>
-                            <div id='casch'>
-                                <input type='hidden' name='cas' id='cas' value='<?=$_SESSION["casSifrovani"]?>'>
-                            </div>
-                        </form>
-                        <script src="../js/sha256.js"></script>
-                        <script src="../js/security.js"></script>
-
-                    <? else: ?>
-                            <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="?akce=logout">Odhlásit</a>
-                            <a class="dropdown-item list-group-item list-group-item-action list-group-item-dark" href="?akce=profil">Zobrazit profil</a>
-                        <? if($security->getRole()=='admin'):?>
-                            <a class="dropdown-item list-group-item list-group-item-action list-group-item-dark" href="?akce=users">Seznam uživatelů</a>
-                        <?endif;?>
-                    <? endif;?>
-                        </div>
-                    </li>
-                </ul>
-            </div>
     
             <form class="form-inline my-2 my-lg-0" action="?akce=hledej" method="post">
                 <input class="form-control mr-sm-2" type="search" placeholder="Hledat všude" name="vyhledat" aria-label="Search" value="<?=$_POST["vyhledat"]?>" required>
@@ -85,13 +37,7 @@
             </form>
         </div>
     </nav>
-    <div class="alert alert-<?=$alert->getTyp()?> alert-dismissible fade <?=$alert->getZobrazit()?>" role="alert">
-        <?=$alert->getText()?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <?// include_once ($stranka->getObsah()); ?>
+    <?php include_once ($stranka->getObsah()); ?>
     <p>&nbsp</p>
     <div class="row bg-dark fixed-bottom">
         <div class="col-sm-12 text-success text-right">Vytvořil Milan Novák dne: 2. 2. 2020  </div>
