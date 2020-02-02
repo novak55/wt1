@@ -91,7 +91,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <? include_once ($stranka->getObsah()); ?>
+    <?// include_once ($stranka->getObsah()); ?>
     <p>&nbsp</p>
     <div class="row bg-dark fixed-bottom">
         <div class="col-sm-12 text-success text-right">Vytvořil Milan Novák dne: 2. 2. 2020  </div>
