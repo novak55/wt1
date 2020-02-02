@@ -1,9 +1,11 @@
-﻿drop table zanr;
-drop table stat;
+﻿/*drop table album;
 drop table kapela;
-drop table album;
+drop table oblibena_kapela;
 drop table pisen;
+drop table stat;
+drop table zanr;
 drop table uzivatel;
+*/
 
 CREATE TABLE zanr (
     zanr_id serial PRIMARY KEY,
