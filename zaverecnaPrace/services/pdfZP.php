@@ -1,5 +1,5 @@
 <?php
-include_once ('../vendor/tfpdf/tfpdf.php');
+include_once ('../vendor/tfpdf/tFPDP.php');
 class pdfZP {
     private $fPdf;
     private $vykreslitdata;
