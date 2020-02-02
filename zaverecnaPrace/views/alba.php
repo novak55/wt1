@@ -1,16 +1,16 @@
 <div class="container bg-light" style="padding: 20px;">
     <div class="row">
-        <h3 class="col-sm-6"><?= $stranka->getTitulek() ?></h3>
+        <h3 class="col-sm-6"><?=$stranka->getTitulek()?></h3>
         <div class="col-sm-6 text-right">
             <a href='?' class='btn btn-warning'>Zpět na přehled kapel</a>
-            <? if($security->getRole() == 'admin'):?>
-            <a href='?akce=pridatAlbum&idKapely=<?= $_GET["id"]?>' class='btn btn-success'>Přidat album</a>
-            <? endif ?>
+            <?php if($security->getRole() == 'admin'):?>
+            <a href='?akce=pridatAlbum&idKapely=<?=$_GET["id"]?>' class='btn btn-success'>Přidat album</a>
+            <?php endif ?>
         </div>
     </div>
 <p> </p>
-<? $alba = $db->getAlbaKapely($_GET['id'])?>
-<? if(count($alba) > 0):?>
+<?php $alba = $db->getAlbaKapely($_GET['id'])?>
+<?php if(count($alba) > 0):?>
     <div class='row'>
         <div class='col col-sm-7 font-weight-bolder'>Název alba</div>
         <div class='col col-sm-3 font-weight-bolder'>Rok vydání</div>
