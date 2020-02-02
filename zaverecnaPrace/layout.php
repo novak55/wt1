@@ -56,7 +56,7 @@
                     <?php if($security->isAuthenticated() == false):?>
 
                         <form class="dropdown-item form-inline my-2 my-lg-0" method="post" onsubmit="return zabezpecit();">
-                            <input class="form-control mr-sm-2" type="text" name="login" placeholder="login" aria-label="login" title="admin:Admin, milan:Novak"><br>
+                            <input class="form-control mr-sm-2" type="text" name="login" placeholder="login" aria-label="login" title="admin:Admin, novak:Milan"><br>
                             <input class="form-control mr-sm-2" type="password" name="password" placeholder="heslo" aria-label="login"><br>
                             <button class="list-group-item list-group-item-action list-group-item-success my-2 my-sm-0" type="submit">Přihlásit</button>
                             <div id='casch'>

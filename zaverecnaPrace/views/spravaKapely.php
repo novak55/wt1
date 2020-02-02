@@ -5,11 +5,11 @@
     </div>
     <p> </p>
     <form action='index.php' method='post'>
-        <input type='hidden' name='id' value='<?= $data[0]["kapela_id"]?>'>
+        <input type='hidden' name='id' value='<?=$data[0]["kapela_id"]?>'>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="nazev_kapely">Náazev kapely*</label>
-                <input type='text' name='nazev_kapely' class="form-control" id="nazev_kapely" placeholder="Název kapely" value='<?= $data[0]["nazev_kapely"]?>' required>
+                <input type='text' name='nazev_kapely' class="form-control" id="nazev_kapely" placeholder="Název kapely" value='<?=$data[0]["nazev_kapely"]?>' required>
             </div>
             <div class="form-group col-md-3">
                 <label for="rok_zalozeni">Rok založení*</label>
@@ -23,22 +23,22 @@
         <div class="form-row">
             <div class="form-group col-md-5">
                 <label for="mesto">Město</label>
-                <input type='text' name='mesto' class="form-control" id="mesto" placeholder="Město" value='<?= $data[0]["mesto"]?>'>
+                <input type='text' name='mesto' class="form-control" id="mesto" placeholder="Město" value='<?=$data[0]["mesto"]?>'>
             </div>
             <div class="form-group col-md-4">
                 <label for="stat">Zvolte stát</label>
                     <select id="stat" class="form-control" name='stat' required><option></option>";
-                        <? foreach ($db->getStaty() as $stat):?>
-                            $stranka .= "<option value='<?= $stat["stat_id"]?>' <? if($data[0]['stat_id'] === $stat['stat_id']):?>selected<? endif;?>><?= $stat["nazev"]?></option>";
-                        <? endforeach; ?>
+                        <?php foreach ($db->getStaty() as $stat):?>
+                            <option value='<?= $stat["stat_id"]?>' <?php if($data[0]['stat_id'] === $stat['stat_id']):?>selected<?php endif;?>><?=$stat["nazev"]?></option>";
+                        <?php endforeach; ?>
                     </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="zanr">Zvolte žánr</label>
                 <select name='zanr' class="form-control" name='zanr' required><option></option>";
-                    <? foreach ($db->getZanr() as $zanr):?>
-                        <option  value='<?= $zanr["zanr_id"]?>' <? if($data[0]['zanr_id'] === $zanr['zanr_id']):?>selected<? endif ?>><?= $zanr["popis"]?></option>
-                    <? endforeach; ?>
+                    <?php foreach ($db->getZanr() as $zanr):?>
+                        <option  value='<?= $zanr["zanr_id"]?>' <?php if($data[0]['zanr_id'] === $zanr['zanr_id']):?>selected<?php endif ?>><?=$zanr["popis"]?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
         </div>
