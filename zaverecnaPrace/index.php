@@ -171,3 +171,4 @@ switch ($_GET["akce"]){
 */
 //include_once 'layout.php';
 echo "test";
+print_r($db->getZanr());
