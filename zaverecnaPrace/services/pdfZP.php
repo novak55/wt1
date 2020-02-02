@@ -1,4 +1,5 @@
 <?php
+include_once ('../vendor/tfpdf/tfpdf.php');
 class pdfZP {
     private $fPdf;
     private $vykreslitdata;
@@ -9,7 +10,6 @@ class pdfZP {
     
     public function __construct()
     {
-        include_once ('../vendor/tfpdf/tfpdf.php');
         $this->fPdf = new tFPDF;
     }
     
