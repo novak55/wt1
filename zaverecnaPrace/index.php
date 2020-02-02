@@ -169,4 +169,5 @@ switch ($_GET["akce"]){
         $stranka->setObsah('default');
 }
 */
-include_once 'layout.php';
+//include_once 'layout.php';
+echo "test";
