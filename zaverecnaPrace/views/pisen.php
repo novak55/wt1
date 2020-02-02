@@ -1,4 +1,4 @@
-<div class="container bg-light" style="padding: 20px;">
+<div class="container">
     <div class="row">
         <h3 class="col-sm-7"><?=$stranka->getTitulek() ?></h3>
         <div class="col-sm-5 text-right">
@@ -20,7 +20,7 @@
     <?php foreach ($pisne as $row):?>
         <div class='row'>
             <div class='col col-sm-1 text-right'><?=$row["poradi"]?>.  </div>
-            <div class='col col-sm-6'><?=$row["nazev"]?></div>
+            <div class='col col-sm-6'><?=$row["nazev_pisne"]?></div>
             <div class='col col-sm-3'><?=$row["delka"]?></div>
             <?php if ($security->getRole() == 'admin'):?>
                 <div class="col col-sm-1">

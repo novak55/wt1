@@ -1,4 +1,4 @@
-<div class="container bg-light" style="padding: 20px;">
+<div class="container">
     <div class='row'>
         <h3 class="col-sm-9"><?=$stranka->getTitulek() ?></h3>
         <div class="col-sm-3 text-right"><a href='?akce=pisen&idAlba=<?=$stranka->getData()["album_id"]?>' class='btn btn-warning'>Zpět na Písně alba</a></div>

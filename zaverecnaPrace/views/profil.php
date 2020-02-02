@@ -1,6 +1,6 @@
-<div class="container bg-light" style="padding: 20px;">
+<div class="container">
     <div class="row">
-        <h3 class="col-sm-6"><?=$stranka->getTitulek()?></h3>
+        <h3 class="col-sm-6"><?=$stranka->getTitulek()?>
     </div>
     <p> </p>
     <div class='row'>

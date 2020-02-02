@@ -1,13 +1,14 @@
 <div class="container ">
     <h3 class="col-sm-6"><?=$stranka->getTitulek()?></h3>
-    <div class='row bg-light'>
+    <p> </p>
+    <div class='row'>
         <div class='col col-sm-2 font-weight-bolder'><a href='?podle=kapela&smer=<?=$db->getRaditOpacnySmer()?>' title='seřadit'><em class="gly"></em>Název kapely</a></div>
-    <div class='col col-sm-1 font-weight-bolder'><a href='?podle=zalozeni&smer=<?=$db->getRaditOpacnySmer()?>' title='seřadit'>Rok založení</a></div>
-    <div class='col col-sm-1 font-weight-bolder'><a href='?podle=ukonceni&smer=<?=$db->getRaditOpacnySmer()?>' title='seřadit'>Rok ukončení</a></div>
-    <div class='col col-sm-1 font-weight-bolder'><a href='?podle=zanr&smer=<?=$db->getRaditOpacnySmer()?>' title='seřadit'>Žánr</a></div>
-    <div class='col col-sm-2 font-weight-bolder'><a href='?podle=mesto&smer=<?=$db->getRaditOpacnySmer()?>' title='seřadit'>Město</a></div>
-    <div class='col col-sm-2 font-weight-bolder'><a href='?podle=stat&smer=<?=$db->getRaditOpacnySmer()?>' title='seřadit'>Stát</a></div>
-    <div class='col col-sm-3'> </div>
+        <div class='col col-sm-1 font-weight-bolder'><a href='?podle=zalozeni&smer=<?=$db->getRaditOpacnySmer()?>' title='seřadit'>Rok založení</a></div>
+        <div class='col col-sm-1 font-weight-bolder'><a href='?podle=ukonceni&smer=<?=$db->getRaditOpacnySmer()?>' title='seřadit'>Rok ukončení</a></div>
+        <div class='col col-sm-1 font-weight-bolder'><a href='?podle=zanr&smer=<?=$db->getRaditOpacnySmer()?>' title='seřadit'>Žánr</a></div>
+        <div class='col col-sm-2 font-weight-bolder'><a href='?podle=mesto&smer=<?=$db->getRaditOpacnySmer()?>' title='seřadit'>Město</a></div>
+        <div class='col col-sm-2 font-weight-bolder'><a href='?podle=stat&smer=<?=$db->getRaditOpacnySmer()?>' title='seřadit'>Stát</a></div>
+        <div class='col col-sm-3'> </div>
     </div>
 
 <?php $kapely = $db->getKapely()?>

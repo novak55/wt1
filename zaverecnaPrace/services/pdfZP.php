@@ -1,5 +1,4 @@
 <?php
-include_once ('../vendor/tfpdf/tFPDF.php');
 class pdfZP {
     
     private $fPdf;
@@ -11,6 +10,7 @@ class pdfZP {
     
     public function __construct()
     {
+        include_once ('tfpdf/tFPDF.php');
         $this->fPdf = new tFPDF;
     }
     

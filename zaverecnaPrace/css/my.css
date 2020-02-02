@@ -2,3 +2,10 @@ div.col{
     border-bottom: 1px solid gray;
     padding: 5px;
 }
+div.container{
+    padding: 15px 25px;
+    background-color: #e6e8ea;
+    border: 1px solid gray;
+    border-radius: 15px;
+
+}

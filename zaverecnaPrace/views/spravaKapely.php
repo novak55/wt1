@@ -1,4 +1,4 @@
-<div class="container bg-light" style="padding: 20px;">
+<div class="container">
     <div class='row'>
         <h3 class="col-sm-6">Správa kapely</h3>
         <div class="col-sm-6 text-right"><a href='?' class='btn btn-warning'>Zpět na přehled kapel</a></div>

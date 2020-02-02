@@ -66,6 +66,7 @@ CREATE TABLE uzivatel (
 );
 
 --ALTER TABLE uzivatel rename column role to role_id;
+--ALTER TABLE pisen rename column nazev to nazev_pisne;
 --ALTER TABLE pisen ADD COLUMN poradi INTEGER NOT NULL;
 --ALTER TABLE album rename column nazev to nazev_alba;
 --ALTER TABLE uzivatel add constraint role_fkey FOREIGN KEY (role_id) REFERENCES role(role_id);

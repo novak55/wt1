@@ -1,4 +1,4 @@
-<div class="container bg-light" style="padding: 20px;">
+<div class="container">
     <div class='row'>
         <h3 class="col-sm-6"><?=$stranka->getTitulek() ?></h3>
         <div class="col-sm-6 text-right"><a href='?akce=alba&id=<?=$stranka->getData()["kapela_id"]?>' class='btn btn-warning'>Zpět na Alba kapely</a></div>
