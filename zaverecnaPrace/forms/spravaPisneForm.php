@@ -14,7 +14,7 @@
             </div>
             <div class="form-group col-md-5">
                 <label for="nazev_pisne">Název písně*</label>
-                <input type='text' name='nazev_pisne' class="form-control" id="nazev_pisne" placeholder="Název písně" value='<?=$data[0]["nazev"]?>' required>
+                <input type='text' name='nazev_pisne' class="form-control" id="nazev_pisne" placeholder="Název písně" value='<?=$data[0]["nazev_pisne"]?>' required>
             </div>
             <div class="form-group col-md-2">
                 <label for="delka">Doba trvání*</label>
