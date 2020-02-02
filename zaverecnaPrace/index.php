@@ -137,7 +137,7 @@ switch ($_GET["akce"]){
         $stranka->setObsah('spravaKapely');
         break;
     case 'getPDF':
-        include ('services/pdfZP.php');
+        include_once ('services/pdfZP.php');
         $pdf = new pdfZP();
         $pdf->setVykreslitdata($db->getKapelyArray());
         $pdf->rendrujPdf();

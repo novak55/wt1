@@ -1,6 +1,5 @@
 <?php
 class pdfZP {
-    
     private $fPdf;
     private $vykreslitdata;
     private $size = [];
@@ -10,7 +9,7 @@ class pdfZP {
     
     public function __construct()
     {
-        include_once ('tfpdf/tFPDF.php');
+        include_once ('tfpdf/tfpdf.php');
         $this->fPdf = new tFPDF;
     }
     
