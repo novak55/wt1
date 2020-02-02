@@ -1,6 +1,6 @@
 <?php
-//session_start();
-/*include_once 'services/databaseZP.php';
+session_start();
+include_once 'services/databaseZP.php';
 include_once 'services/securityZP.php';
 include_once 'services/alertZP.php';
 include_once 'services/stranka.php';
@@ -8,7 +8,7 @@ $db = new databaseZP();
 $security = new securityZP();
 $alert = new alertZP();
 $stranka = new stranka();
-
+/*
 if(($_POST["login"] && $_POST["pwd"])){
     $db->setPassword($_POST["pwd"]);
     $db->setLogin($_POST["login"]);
