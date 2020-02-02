@@ -26,7 +26,6 @@ class databaseZP{
     private $userName;
     private $userRole;
     private $userId;
-    private $userLogin;
     private $oblibene;
     
     
@@ -165,7 +164,7 @@ class databaseZP{
         $sql = "INSERT INTO pisen VALUES (default, :idAlba, :nazevPisne, :delka, :poradi)";
         if($_POST['id_pisne']){
             $params['idPisne'] = $this->idPisne;
-            $sql = "UPDATE pisen SET album_id = :idAlba, nazev = :nazevPisne, delka = :delka, poradi = :poradi where pisen_id = :idPisne and album_id = :idAlba";
+            $sql = "UPDATE pisen SET album_id = :idAlba, nazev_pisne = :nazevPisne, delka = :delka, poradi = :poradi where pisen_id = :idPisne and album_id = :idAlba";
         }
         $this->setSql($sql, $params);
     }
