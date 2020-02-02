@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 /*include_once 'services/databaseZP.php';
 include_once 'services/securityZP.php';
 include_once 'services/alertZP.php';
