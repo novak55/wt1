@@ -32,8 +32,8 @@ alter table kapela
 
 CREATE TABLE album (
                        album_id serial PRIMARY KEY,
-                       kapela_id INTEGER REFERENCES kapela(kapela_id) NOT NULL ,
-                       nazev VARCHAR(100) NOT NULL,
+                       kapela_id INTEGER REFERENCES kapela(kapela_id) ON DELETE CASCADE NOT NULL ,
+                       nazev_alba VARCHAR(100) NOT NULL,
                        vydano INTEGER NOT NULL
 );
 alter table album
@@ -41,24 +41,40 @@ alter table album
 
 CREATE TABLE pisen (
                        pisen_id serial PRIMARY KEY,
-                       album_id INTEGER REFERENCES album(album_id) NOT NULL ,
-                       nazev VARCHAR(100) NOT NULL ,
-                       delka varchar(5) NOT NULL
+                       album_id INTEGER REFERENCES album(album_id) ON DELETE CASCADE NOT NULL ,
+                       nazev_pisne VARCHAR(100) NOT NULL ,
+                       delka varchar(5) NOT NULL,
+                       poradi INTEGER NOT NULL
 );
+
+CREATE TABLE role (
+                      role_id VARCHAR(20) UNIQUE PRIMARY KEY NOT NULL ,
+                      role_popis VARCHAR(100)
+);
+INSERT INTO role values
+    ('admin', 'správce stránek a uživatelů'),
+    ('navstevnik','Uživatel stránek, může si označovat oblíbené kapely.');
 
 CREATE TABLE uzivatel (
                          user_id SERIAL PRIMARY KEY NOT NULL,
                          user_name VARCHAR(150) NOT NULL,
                          login VARCHAR(150) UNIQUE NOT NULL,
                          password VARCHAR(255) NOT NULL,
-                         role VARCHAR(20) NOT NULL
+                         role_id VARCHAR(20) REFERENCES role(role_id) NOT NULL
 );
 
+--ALTER TABLE uzivatel rename column role to role_id;
+--ALTER TABLE pisen ADD COLUMN poradi INTEGER NOT NULL;
+--ALTER TABLE album rename column nazev to nazev_alba;
+--ALTER TABLE uzivatel add constraint role_fkey FOREIGN KEY (role_id) REFERENCES role(role_id);
 --alter table uzivatel drop constraint user_pkey;
 --alter table uzivatel add constraint "user_pkey" PRIMARY KEY (user_id);
 
+--DROP TABLE oblibena_kapela;
+
 CREATE TABLE oblibena_kapela(
-    user_id INTEGER REFERENCES uzivatel(user_id) NOT NULL,
-    kapela_id INTEGER REFERENCES kapela(kapela_id) NOT NULL
+    user_id INTEGER REFERENCES uzivatel(user_id) ON DELETE CASCADE NOT NULL,
+    kapela_id INTEGER REFERENCES kapela(kapela_id) ON DELETE CASCADE NOT NULL
 );
 ALTER TABLE oblibena_kapela ADD CONSTRAINT "oblibena_kapela_pkey" PRIMARY KEY (user_id, kapela_id);
+

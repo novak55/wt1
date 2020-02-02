@@ -32,6 +32,5 @@
 <div class="row bg-dark fixed-bottom">
     <div class="col-sm-12 text-success text-right">Datum vytvoření: 27. 1. 2020  </div>
 </div>
-<?php print_r($_SESSION); ?>
 </body>
 </html>

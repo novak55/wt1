@@ -1,13 +1,20 @@
 <?php
-class database2{
+class databaseZP{
     
     private $connector;
     private $sql;
     private $params;
     private $idKapely;
+    private $idAlba;
+    private $idPisne;
     private $nazevKapely;
+    private $nazevAlba;
+    private $nazevPisne;
     private $rokZ;
     private $rokU;
+    private $rokV;
+    private $delka;
+    private $poradi;
     private $zanr;
     private $mesto;
     private $stat;
@@ -19,14 +26,39 @@ class database2{
     private $userName;
     private $userRole;
     private $userId;
+    private $userLogin;
+    private $oblibene;
+    
     
     
     public function __construct()
     {
         include '../settings/connect.php';
         $this->connector = connectToDb();
-        $this->raditPodle = 'nazev_kapely';
-        $this->raditSmer = 'ASC';
+        if($podle = $_GET['podle']){
+        SWITCH ($podle) {
+            case 'zalozeni':
+                $this->setRaditPodle('rok_zalozeni');
+                break;
+            case 'ukonceni':
+                $this->setRaditPodle('rok_ukonceni');
+                break;
+            case 'zanr':
+                $this->setRaditPodle('z.popis');
+                break;
+            case 'mesto':
+                $this->setRaditPodle('mesto');
+                break;
+            case 'stat':
+                $this->setRaditPodle('s.nazev');
+                break;
+            default:
+                $this->setRaditPodle('nazev_kapely');
+        }
+        }else{
+                $this->raditPodle = 'nazev_kapely';
+                $this->raditSmer = 'ASC';
+        }
         if($_GET['smer']){$this->setRaditSmer($_GET['smer'] == 'ASC' ? 'ASC' : 'DESC');}
         if($_SESSION['USER_NAME']){$this->userName = $_SESSION['USER_NAME'];}
         if($_SESSION['ROLE']){$this->userRole = $_SESSION['ROLE'];}
@@ -38,6 +70,9 @@ class database2{
             $stmt = $this->connector->prepare($this->sql);
             $stmt->execute($this->params);
         }catch (Exception $exception){
+            $_SESSION['alert']=9;
+            $_SESSION['errors'][] = $this->sql . '\n' . $exception->getMessage();
+            header('location: ?');
             exit ('Nelze vykonat dotaz: ' . $this->sql . '<br>' . $exception->getMessage());
         }
         return $stmt->fetchAll();
@@ -50,13 +85,16 @@ class database2{
     }
     
     function getKapely(){
-        $where = '';
+        $where = 'WHERE true';
         $join = '';
         $params = [];
         $select = '';
         if(isset($this->vyhledat)){
-            $where = "WHERE k.nazev_kapely ilike :vyhledat or k.rok_zalozeni::VARCHAR ilike :vyhledat or k.rok_ukonceni::VARCHAR ilike :vyhledat or k.mesto ilike :vyhledat or s.nazev ilike :vyhledat or z.popis ilike :vyhledat";
+            $where .= " and( k.nazev_kapely ilike :vyhledat or k.rok_zalozeni::VARCHAR ilike :vyhledat or k.rok_ukonceni::VARCHAR ilike :vyhledat or k.mesto ilike :vyhledat or s.nazev ilike :vyhledat or z.popis ilike :vyhledat)";
             $params['vyhledat'] = '%' . $this->vyhledat . '%';
+        }
+        if($this->oblibene){
+            $where .= " and ok.kapela_id is not null";
         }
         if($this->userRole == 'navstevnik' || $this->userRole == 'admin'){
             $join = "LEFT JOIN oblibena_kapela ok ON k.kapela_id = ok.kapela_id and ok.user_id = :user";
@@ -72,7 +110,7 @@ class database2{
                     ORDER BY " . $this->raditPodle . " " . $this->raditSmer, $params);
     }
     
-    public function ulozitKapelu()
+    private function ulozitKapelu()
     {
         $promene = ":nazev,:zalozeno,null,:zanr,:mesto,:stat";
         $params = [
@@ -104,14 +142,62 @@ class database2{
         }
         $this->setSql($sql, $params);
     }
+    
+    private function ulozitAlbum(){
+        $params = ['nazevAlba' => $this->nazevAlba,
+            'rokV' => $this->rokV,
+            'idKapely' => $this->idKapely,
+        ];
+        $sql = "INSERT INTO album VALUES (default, :idKapely, :nazevAlba, :rokV)";
+        if($_POST['id_alba']){
+            $sql = "UPDATE album SET nazev_alba = :nazevAlba, vydano = :rokV where album_id = :idAlba and kapela_id = :idKapely";
+            $params['idAlba'] = $this->idAlba;
+        }
+        $this->setSql($sql, $params);
+    }
+    private function ulozitPisen(){
+        $params = [
+            'nazevPisne' => $this->nazevPisne,
+            'delka' => $this->delka,
+            'poradi' => $this->poradi,
+            'idAlba' => $this->idAlba,
+        ];
+        $sql = "INSERT INTO pisen VALUES (default, :idAlba, :nazevPisne, :delka, :poradi)";
+        if($_POST['id_pisne']){
+            $params['idPisne'] = $this->idPisne;
+            $sql = "UPDATE pisen SET album_id = :idAlba, nazev = :nazevPisne, delka = :delka, poradi = :poradi where pisen_id = :idPisne and album_id = :idAlba";
+        }
+        $this->setSql($sql, $params);
+    }
+    
     public function getKapeluById($idKapely)
     {
         return $this->setSql("SELECT * FROM kapela WHERE kapela_id = :idKapely", ['idKapely' => $idKapely]);
     }
-
+    
+    public function getAbumKapelyById($idAlba)
+    {
+        return $this->setSql("SELECT * FROM album NATURAL JOIN kapela WHERE album_id = :idAlba", ['idAlba' => $idAlba]);
+    }
+    
+    public function getPisenAlbaById($idPisne)
+    {
+        return $this->setSql("SELECT * FROM pisen NATURAL JOIN album NATURAL JOIN kapela WHERE pisen_id = :idPisne", ['idPisne' => $idPisne]);
+    }
+    
     public function delKapeluById($idKapely)
     {
         $this->setSql("DELETE FROM kapela WHERE kapela_id = :idKapely", ['idKapely' => $idKapely]);
+    }
+    
+    public function delAlbumById($idAlba)
+    {
+        $this->setSql("DELETE FROM album WHERE album_id = :idAlba", ['idAlba' => $idAlba]);
+    }
+    
+    public function delPisenById($idPisne)
+    {
+        $this->setSql("DELETE FROM pisen WHERE pisen_id = :idPisne", ['idPisne' => $idPisne]);
     }
     
     public function setIdKapely($idKapely)
@@ -175,6 +261,15 @@ class database2{
         return $this->setSql("SELECT * FROM zanr ORDER BY popis");
     }
     
+    public function getAlbaKapely($id)
+    {
+        return $this->setSql("SELECT * FROM album WHERE kapela_id = :id ORDER BY nazev_alba", ['id' => $id]);
+    }
+    
+    public function getPisneAlba($albumId){
+        return $this->setSql("SELECT * FROM pisen WHERE album_id = :id ORDER BY poradi", ['id' => $albumId]);
+    }
+
     public function getKapelyArray()
     {
         $i = 0;
@@ -209,18 +304,20 @@ class database2{
     {
         $sql = $this->setSql("SELECT * FROM uzivatel WHERE login = :login", ['login' => $this->login]);
         $password = hash('sha256', $sql[0]["password"].$_SESSION['casSifrovani']);
-        if(count($sql) == 1 && $password == $this->password) {
-            $this->userName = $sql[0]['user_name'];
-            $this->userRole = $sql[0]['role_id'];
-            $this->userId = $sql[0]['user_id'];
+        if($password == $this->password) {
             $_SESSION['ROLE'] = $sql[0]['role_id'];
             $_SESSION['USER_NAME'] = $sql[0]['user_name'];
             $_SESSION['USER_ID'] = $sql[0]['user_id'];
+            $_SESSION['USER_LOGIN'] = $sql[0]['login'];
             return true;
         }
         return false;
     }
     
+    public function getUsers(){
+        return $this->setSql("SELECT * FROM uzivatel ORDER BY user_name");
+    }
+
     public function getUserName()
     {
         return $this->userName;
@@ -265,4 +362,89 @@ class database2{
     {
         $this->setSql("DELETE FROM oblibena_kapela WHERE user_id = :uzivatel and kapela_id = :kapela", ['uzivatel' => $this->userId, 'kapela' => $_GET['idKapely']]);
     }
+    
+    public function setDataKapely(){
+        if($_POST['nazev_kapely'] !== null
+            && $_POST['rok_z'] >= 1900
+            && $_POST['rok_z'] <= date('Y')
+            && $_POST['zanr'] !== null
+            && $_POST['stat'] !== null
+        ){
+            $this->setRokZ($_POST['rok_z']);
+            $this->setRokU($_POST['rok_u']);
+            $this->setNazevKapely($_POST['nazev_kapely']);
+            $this->setZanr($_POST['zanr']);
+            $this->setMesto($_POST['mesto']);
+            $this->setStat($_POST['stat']);
+            $this->setIdKapely($_POST['id']);
+            $this->ulozitKapelu();
+            $_SESSION['alert'] = 6;
+            header('location: ?');
+        }
+    
+    }
+    
+    public function setOblibene($oblibene)
+    {
+        $this->oblibene = $oblibene;
+    }
+    
+    public function setAlbumKapely()
+    {
+        if($_POST['nazev_alba'] && $_POST['rok_v']){
+            $this->setIdKapely($_GET['id']);
+            $this->setRokV($_POST['rok_v']);
+            $this->setNazevAlba($_POST['nazev_alba']);
+            $this->setIdAlba($_POST['id_alba']);
+            $this->ulozitAlbum();
+        }
+    }
+    
+    public function setPisenAlbaKapely()
+    {
+        if($_POST['nazev_pisne'] && $_POST['delka'] && $_POST['poradi'] ){
+            $this->setIdAlba($_POST['id_alba']);
+            $this->setNazevPisne($_POST['nazev_pisne']);
+            $this->setDelka($_POST['delka']);
+            $this->setPoradi($_POST['poradi']);
+            $this->setIdPisne($_POST['id_pisne']);
+            $this->ulozitPisen();
+        }
+    }
+    
+    private function setNazevAlba($nazevAlba)
+    {
+        $this->nazevAlba = $nazevAlba;
+    }
+    
+    private function setRokV($rokV)
+    {
+        $this->rokV = $rokV;
+    }
+    
+    private function setIdAlba($idAlba)
+    {
+        $this->idAlba = $idAlba;
+    }
+    
+    private function setNazevPisne($nazevPisne)
+    {
+        $this->nazevPisne = $nazevPisne;
+    }
+    
+    private function setDelka($delka)
+    {
+        $this->delka = $delka;
+    }
+    
+    private function setPoradi($poradi)
+    {
+        $this->poradi = $poradi;
+    }
+    
+    public function setIdPisne($idPisne)
+    {
+        $this->idPisne = $idPisne;
+    }
+    
 }
