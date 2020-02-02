@@ -1,6 +1,7 @@
 <?php
-include_once ('../vendor/tfpdf/tFPDP.php');
+include_once ('../vendor/tfpdf/tFPDF.php');
 class pdfZP {
+    
     private $fPdf;
     private $vykreslitdata;
     private $size = [];
@@ -16,22 +17,22 @@ class pdfZP {
     public function rendrujPdf()
     {
         if($this->isSize() == false){
-            $this->fPdf->AddFont('calibri', '', 'calibri.ttf', true);
+            $this->fPdf->AddFont('Calibri', '', 'calibri.ttf', true);
             $this->fPdf->SetAuthor('Milan Novák');
     
             $this->fPdf->AddPage('l');
-            $this->fPdf->SetFont('calibri', '', '20');
+            $this->fPdf->SetFont('Calibri', '', '20');
             $this->fPdf->Cell(270, 15, "Chyba - nebylo nalezeno potřebné nastavení.", 1, '1', 'C');
     
         }else {
-            $this->fPdf->AddFont('calibri', '', 'calibri.ttf', true);
+            $this->fPdf->AddFont('Calibri', '', 'calibri.ttf', true);
             $this->fPdf->SetAuthor('Milan Novák');
     
             $this->fPdf->AddPage('l');
-            $this->fPdf->SetFont('calibri', '', '20');
+            $this->fPdf->SetFont('Calibri', '', '20');
             $this->fPdf->Cell(270, 15, "Seznam hudebních kapel", 1, '1', 'C');
     
-            $this->fPdf->SetFont('calibri', '', '10');
+            $this->fPdf->SetFont('Calibri', '', '10');
     
             $i = 0;
             $this->fPdf->Cell($this->size[$i++], 10, "Název kapely", 1);
@@ -81,5 +82,6 @@ class pdfZP {
         }
         return true;
     }
+    
     
 }
