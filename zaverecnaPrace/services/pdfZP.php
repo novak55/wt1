@@ -9,7 +9,7 @@ class pdfZP {
     
     public function __construct()
     {
-        include_once ('../vendor/tfpdf/tfpdf.php');
+        include_once ('/~novak71/vendor/tfpdf/tfpdf.php');
         $this->fPdf = new tFPDF;
     }
     
